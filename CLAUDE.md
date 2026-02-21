@@ -18,6 +18,7 @@ Dieses Repository enthält ein wiederverwendbares 3-Phasen-System zur Erstellung
 ├── ausgabe/                     # Generiertes Word-Dokument
 └── scripts/
     ├── generate_workbook.py     # Markdown → Word
+    ├── template.docx            # Word-Vorlage mit globalen Einstellungen (optional)
     └── requirements.txt
 ```
 
@@ -124,7 +125,7 @@ Liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeug
 # Aufgabe N
 
 Fließtext mit paraphrasierten Inhalten in eigenen Worten.
-Inline-Zitat: (Autor, Jahr, S. X) bzw. (vgl. Autor, Jahr, S. X)
+Inline-Zitat: (Autor, Jahr)
 
 ## Optionale Zwischenüberschrift
 
@@ -134,6 +135,7 @@ Weiterer Fließtext...
 - `#` = Aufgabentitel (Arial 12 pt, fett im Word-Output)
 - `##` = Zwischenüberschrift (Arial 11 pt, fett)
 - `**fett**` = Hervorhebung innerhalb von Absätzen
+- `*kursiv*` = Kursivschrift (z.B. für Buchtitel im Literaturverzeichnis)
 - Keine Stichpunktlisten als Hauptstruktur – Fließtext bevorzugt
 
 ---
@@ -145,13 +147,19 @@ Weiterer Fließtext...
 | Schriftart Text | Arial 11 pt |
 | Schriftart Überschriften | Arial 12 pt, fett |
 | Zeilenabstand | 1,5 |
-| Seitenränder | 2 cm rundum |
+| Seitenränder | Aus `template.docx` |
 | Satzformat | Blocksatz |
 | Absatzabstand nach | 6 pt |
-| Seitenzahlen | Zentriert, arabisch ab Aufgabe 1 |
-| Titelblatt | Aus config.json generiert |
+| Seitenzahlen | Zentriert unten, arabisch ab Seite 2 (Titelblatt ohne Nummer) |
+| Literaturverzeichnis | APA 7 hängender Einzug (1,27 cm) automatisch |
+| Titelblatt | Vollständig aus `config.json → titelblatt` generiert |
+| Silbentrennung | Aus `template.docx` (einmalig dort aktivieren) |
 
-Silbentrennung: User aktiviert manuell in Word unter `Layout → Silbentrennung → Automatisch`.
+**Template `scripts/template.docx`** (einmalig in Word erstellen):
+- `Layout → Silbentrennung → Automatisch`
+- `Überprüfen → Sprache → Deutsch (Deutschland)` als Standard
+- Footer leer lassen (Script befüllt ihn für den Inhaltsteil)
+- Seitenränder nach Vorgabe setzen
 
 ---
 
@@ -159,8 +167,8 @@ Silbentrennung: User aktiviert manuell in Word unter `Layout → Silbentrennung 
 
 1. Neuen Kursordner anlegen (gleiche Struktur)
 2. Neue Eingangsdokumente in `eingang/` ablegen
-3. `entwurf/config.json` mit neuen Kursdaten befüllen
-4. `scripts/generate_workbook.py` ist wiederverwendbar – keine Änderung nötig
+3. `entwurf/config.json` mit neuen Kursdaten befüllen – insbesondere `titelblatt`-Array anpassen
+4. `scripts/generate_workbook.py` und `scripts/template.docx` sind wiederverwendbar – keine Änderung nötig
 5. Phase 1 starten: Claude liest Skript und schreibt neue Entwürfe
 
 ---

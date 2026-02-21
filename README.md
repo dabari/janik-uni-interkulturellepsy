@@ -1,13 +1,40 @@
-# Advanced Workbook – DLBWPIPS01 Interkulturelle Psychologie
+# Advanced Workbook System
+
+Wiederverwendbares 3-Phasen-System zur Erstellung von Advanced Workbooks für die IU Internationale Hochschule. Funktioniert für jeden IU-Kurs mit diesem Prüfungsformat – Entwürfe, Zitierung und Word-Generierung sind vollständig kursübergreifend gehalten.
+
+---
+
+## Ordnerstruktur
+
+```
+[kurs-ordner]/
+├── eingang/                     # Original-PDFs der Hochschule (nicht ändern)
+├── entwurf/
+│   ├── config.json              # Persönliche Daten + Deckblatt → hier ausfüllen!
+│   ├── aufgabe_1.md             # Inhaltsentwurf Aufgabe 1
+│   ├── aufgabe_N.md             # ... weitere Aufgaben
+│   └── literaturverzeichnis.md  # Alle Quellen in APA 7
+├── ausgabe/                     # Generiertes Word-Dokument landet hier
+└── scripts/
+    ├── generate_workbook.py     # Hauptskript: Markdown → Word
+    ├── template.docx            # Word-Vorlage mit globalen Einstellungen
+    └── requirements.txt         # Python-Abhängigkeiten
+```
+
+> **Beispiel (aktueller Kurs):** `DLBWPIPS01 – Interkulturelle Psychologie` mit 6 Aufgaben (`aufgabe_1.md` bis `aufgabe_6.md`).
+
+---
 
 ## Eingangsdokumente (`eingang/`)
 
-| Datei | Inhalt |
+Die Hochschule stellt pro Kurs typischerweise diese Dokumente bereit:
+
+| Typ | Inhalt |
 |---|---|
-| `Aufgabenstellung Advanced Workbook DLBWPIPS01_1.pdf` | Die 6 Aufgaben des Workbooks |
-| `Prüfungsleitfaden Advanced Workbook.pdf` | Formalia, Bewertungsschema, Abgaberegeln |
-| `Skript_InterkulturellePsy.pdf` | Kursskript – **einzige Inhaltsquelle** (inkl. Basis- und Weiterführende Literatur S. 7–9) |
-| `Leitfaden Vermeidung Plagiat.pdf` | Plagiatsvermeidung, Zitierregeln |
+| Aufgabenstellung | Die N Aufgaben des Workbooks |
+| Prüfungsleitfaden | Formalia, Bewertungsschema, Abgaberegeln |
+| Kursskript | **Einzige Inhaltsquelle** (inkl. Basis- und Weiterführende Literatur) |
+| Plagiatsvermeidung | Zitierregeln der Hochschule |
 
 > **Zitierstandard: APA 7 – ausschließlich.**
 
@@ -17,19 +44,21 @@
 
 ### Phase 1 – Inhaltsentwurf (einmalig, von Claude erledigt)
 
-Claude liest alle Eingangsdokumente und schreibt die Entwürfe für alle 6 Aufgaben als Markdown-Dateien in `entwurf/`. Dies ist bereits geschehen.
+Claude liest alle Eingangsdokumente und schreibt für jede Aufgabe eine Markdown-Datei in `entwurf/`. Inhalte stammen ausschließlich aus dem Kursskript und der dort gelisteten Literatur.
+
+> **Beispiel:** Für DLBWPIPS01 wurden 6 Entwürfe erstellt – u.a. zur Anwendung des Hofstede-Modells (Aufgabe 1) und zum interkulturellen Marketing-Mix (Aufgabe 5).
 
 ### Phase 2 – Review & Anpassung (du + Claude, iterativ)
 
-1. Öffne die Entwürfe in `entwurf/aufgabe_1.md` bis `aufgabe_6.md`
+1. Öffne die Entwürfe in `entwurf/aufgabe_N.md`
 2. Lies jeden Entwurf durch
 3. Gib Claude Feedback im Chat, z.B.:
    - „Aufgabe 3 – der zweite Absatz ist zu kurz, bitte ausführlicher"
-   - „Aufgabe 1 – bitte auch die Dimension Langzeitorientierung für China erklären"
+   - „Aufgabe 1 – bitte auch die Dimension Langzeitorientierung erklären"
 4. Claude passt die `.md`-Datei direkt an
 5. Wiederhole bis du zufrieden bist
 
-Du kannst die `.md`-Dateien auch selbst direkt bearbeiten (z.B. in VS Code oder Notepad).
+Die `.md`-Dateien können auch direkt bearbeitet werden (z.B. in VS Code oder Notepad).
 
 ### Phase 3 – Word-Dokument generieren
 
@@ -39,79 +68,115 @@ Wenn alle Entwürfe fertig sind:
 python scripts/generate_workbook.py
 ```
 
-Das Script liest `entwurf/config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeugt:
+Das Script liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeugt:
 
 ```
-ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_DLBWPIPS01.docx
+ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx
 ```
+
+> **Beispiel:** `20260221_Baricevic_Janik_12345678_DLBWPIPS01.docx`
 
 Danach: Word öffnen → **Datei → Exportieren → PDF** → bei Turnitin einreichen.
 
 ---
 
-## Vor der ersten Abgabe: config.json ausfüllen
+## config.json ausfüllen
 
-Öffne `entwurf/config.json` und trage deine persönlichen Daten ein:
+Öffne `entwurf/config.json` und trage die Kursdaten ein. Die flachen Felder dienen als Platzhalter im `titelblatt`-Array und werden für den Dateinamen verwendet.
 
 ```json
 {
-  "name_nachname": "Dein Nachname",
-  "name_vorname": "Dein Vorname",
-  "matrikelnummer": "Deine Matrikelnummer",
+  "name_nachname": "Baricevic",
+  "name_vorname": "Janik",
+  "matrikelnummer": "12345678",
   "studiengang": "Bachelor Wirtschaftspsychologie",
   "kurs_bezeichnung": "DLBWPIPS01 – Interkulturelle Psychologie",
   "art_der_arbeit": "Advanced Workbook",
-  "tutor": "Name deines Tutors",
-  "datum": "2025-03-25",
-  "kurskuerzel": "DLBWPIPS01"
+  "tutor": "Name des Tutors",
+  "datum": "2026-02-21",
+  "kurskuerzel": "DLBWPIPS01",
+  "titelblatt": [
+    { "text": "IU Internationale Hochschule", "size": 12, "bold": true, "space_after": 0 },
+    { "text": "{studiengang}", "size": 11, "space_after": 30 },
+    { "text": "{art_der_arbeit}", "size": 14, "bold": true, "space_after": 6 },
+    { "text": "im Kurs", "size": 11, "space_after": 6 },
+    { "text": "{kurs_bezeichnung}", "size": 12, "bold": true, "space_after": 60 },
+    { "label": "Name", "value": "{name_vorname} {name_nachname}", "space_after": 3 },
+    { "label": "Matrikelnummer", "value": "{matrikelnummer}", "space_after": 3 },
+    { "label": "Tutor/in", "value": "{tutor}", "space_after": 3 },
+    { "label": "Abgabedatum", "value": "{datum}", "space_after": 3 },
+    { "text": "" }
+  ]
 }
 ```
 
----
-
-## Ordnerstruktur
-
-```
-InterkulturellePsy/
-├── eingang/                         # Original-PDFs der Hochschule (nicht ändern)
-├── entwurf/
-│   ├── config.json                  # Persönliche Daten → hier ausfüllen!
-│   ├── aufgabe_1.md                 # Entwurf Aufgabe 1 (Hofstede-Modell)
-│   ├── aufgabe_2.md                 # Entwurf Aufgabe 2 (Forschungsbereiche)
-│   ├── aufgabe_3.md                 # Entwurf Aufgabe 3 (Unternehmenskultur)
-│   ├── aufgabe_4.md                 # Entwurf Aufgabe 4 (Diversity Management)
-│   ├── aufgabe_5.md                 # Entwurf Aufgabe 5 (7P-Marketing)
-│   ├── aufgabe_6.md                 # Entwurf Aufgabe 6 (Kulturkonzept + Messung)
-│   └── literaturverzeichnis.md      # Alle Quellen in APA 7
-├── ausgabe/                         # Generiertes Word-Dokument landet hier
-└── scripts/
-    ├── generate_workbook.py         # Hauptskript: Markdown → Word
-    └── requirements.txt             # Python-Abhängigkeiten (python-docx)
-```
+Das `titelblatt`-Array definiert jede Zeile des Deckblatts. `{schlüssel}` wird durch den gleichnamigen Wert aus der config ersetzt. Zeilen können frei hinzugefügt, entfernt oder umsortiert werden – das Script hardcodet keinen Inhalt.
 
 ---
 
-## Word-Formatierung (laut Prüfungsleitfaden)
+## Markdown-Format der Entwurfsdateien
 
-Das Script setzt diese Formatierung automatisch:
+```markdown
+# Aufgabe 1
+
+Fließtext mit paraphrasierten Inhalten. Inline-Zitat: (Autor, Jahr)
+
+## Optionale Zwischenüberschrift
+
+Weiterer Fließtext mit **Hervorhebung** oder *Kursivschrift*.
+```
+
+| Syntax | Bedeutung |
+|---|---|
+| `# Titel` | Aufgabentitel (Arial 12 pt, fett) |
+| `## Zwischentitel` | Zwischenüberschrift (Arial 11 pt, fett) |
+| `**text**` | Fettdruck |
+| `*text*` | Kursiv (z.B. für Buchtitel im Literaturverzeichnis) |
+| `(Autor, Jahr)` | APA 7 Inline-Zitat – keine Seitenangabe |
+
+---
+
+## Word-Formatierung (automatisch durch Script)
 
 | Einstellung | Wert |
 |---|---|
 | Schriftart Text | Arial 11 pt |
 | Schriftart Überschriften | Arial 12 pt, fett |
 | Zeilenabstand | 1,5 |
-| Seitenränder | 2 cm rundum |
+| Seitenränder | Aus `template.docx` |
 | Satzformat | Blocksatz |
 | Absatzabstand nach | 6 pt |
-| Seitenzahlen | Zentriert unten, arabisch ab Seite 1 |
-| Titelblatt | Aus config.json generiert |
+| Seitenzahlen | Zentriert unten, arabisch ab Seite 2 (Titelblatt ohne Nummer) |
+| Literaturverzeichnis | APA 7 hängender Einzug (1,27 cm) |
+| Titelblatt | Vollständig aus `config.json → titelblatt` generiert |
+| Silbentrennung | Aus `template.docx` |
 
-> **Silbentrennung:** In Word manuell aktivieren: `Layout → Silbentrennung → Automatisch`
+### Template einmalig vorbereiten
+
+`scripts/template.docx` in Word öffnen und folgendes einstellen:
+
+1. `Layout → Silbentrennung → Automatisch`
+2. `Überprüfen → Sprache → Deutsch (Deutschland)` als Standard setzen
+3. Seitenränder nach Vorgabe der Hochschule setzen (i.d.R. 2 cm rundum)
+4. Footer leer lassen (Script befüllt ihn automatisch)
+5. Speichern
+
+Das Template ist kursübergreifend wiederverwendbar.
+
+---
+
+## Neuen Kurs anlegen
+
+1. Neuen Kursordner anlegen (gleiche Struktur wie dieser)
+2. Eingangsdokumente in `eingang/` ablegen
+3. `entwurf/config.json` mit neuen Kursdaten befüllen
+4. `scripts/generate_workbook.py` und `scripts/template.docx` unverändert übernehmen
+5. Claude Phase 1 starten lassen
 
 ---
 
 ## Voraussetzungen
 
-- Python 3 installiert
-- `python-docx` installiert (`pip install python-docx`)
-- `poppler-utils` installiert (`sudo apt-get install poppler-utils`) – für das Lesen der PDFs durch Claude
+- Python 3
+- `pip install python-docx`
+- `poppler-utils` (`sudo apt-get install poppler-utils`) – für Claude zum Lesen der PDFs
