@@ -1,0 +1,23 @@
+{
+  "name_nachname": "Baricevic",
+  "name_vorname": "Janik",
+  "matrikelnummer": "12345678",
+  "studiengang": "Bachelor Wirtschaftspsychologie",
+  "kurs_bezeichnung": "DLBWPIPS01 – Interkulturelle Psychologie",
+  "art_der_arbeit": "Advanced Workbook",
+  "tutor": "???",
+  "datum": "2026-02-21",
+  "kurskuerzel": "DLBWPIPS01",
+  "titelblatt": [
+    { "text": "IU Internationale Hochschule", "size": 12, "bold": true, "space_after": 0 },
+    { "text": "{studiengang}", "size": 11, "space_after": 30 },
+    { "text": "{art_der_arbeit}", "size": 14, "bold": true, "space_after": 6 },
+    { "text": "im Kurs", "size": 11, "space_after": 6 },
+    { "text": "{kurs_bezeichnung}", "size": 12, "bold": true, "space_after": 60 },
+    { "label": "Name", "value": "{name_vorname} {name_nachname}", "space_after": 3 },
+    { "label": "Matrikelnummer", "value": "{matrikelnummer}", "space_after": 3 },
+    { "label": "Tutor/in", "value": "{tutor}", "space_after": 3 },
+    { "label": "Abgabedatum", "value": "{datum}", "space_after": 3 },
+    { "text": "" }
+  ]
+}
