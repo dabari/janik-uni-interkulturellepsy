@@ -1,5 +1,9 @@
 # Aufgabe 5
 
+Die Firma Naturefood hat ein neues, hochwertiges Nahrungsergänzungsmittel mit einem besonders hohen Kalzium-Anteil in ihren Laboren entwickelt. Das Produkt ist als Pulver erhältlich und kann in unterschiedlichen Mengen abgefüllt werden. Beschreibe, wie nach dem 7P-Modell von McCarthy die Instrumente des Marketings in einem von Dir definierten Land idealerweise gestaltet sein sollen. Begründe Dein Vorgehen realistisch und nachvollziehbar.
+
+---
+
 ## Marketing-Mix nach dem 7P-Modell für Naturefood in Japan
 
 Als Zielland wird **Japan** gewählt. Im Folgenden wird das 7P-Modell von McCarthy (1960) angewendet, das die sieben Marketinginstrumente Product, Price, Promotion, Place, Packaging, Positioning und People umfasst. Interkulturelles Marketing beinhaltet die Analyse, Planung und Kontrolle aller auf die kulturellen Bedingungen der Zielmärkte ausgerichteten Unternehmensaktivitäten (Mennicken, 2000).

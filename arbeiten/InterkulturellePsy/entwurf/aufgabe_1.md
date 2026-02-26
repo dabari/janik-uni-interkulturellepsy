@@ -1,5 +1,11 @@
 # Aufgabe 1
 
+Ein global agierendes Unternehmen der Nahrungsmittelindustrie hat Mitarbeiter aus verschiedenen Ländern zu einem Workshop im Headquarter eingeladen, um an der Vermarktungsstrategie für einen neuen Softdrink zu arbeiten. Die Teilnehmer stammen aus den USA, Schweden, Deutschland und China. Bereits nach 1 Stunde verlassen die Amerikaner entnervt den Workshop; die Schweden sind brüskiert; die Chinesen verstehen „die Welt" nicht mehr und die deutschen Teilnehmer des Workshops diskutieren am Rand des Workshop-Raums, wie man die Teilnehmer wieder an „einen Tisch" bekommen kann.
+
+Erkläre anhand eines Dir bekannten Kulturmodells, wie es zu dieser verfahrenen Situation kommen konnte; gehe dabei auf die für das Beispiel relevanten Kulturdimensionen ein.
+
+---
+
 Die im Workshop geschilderte Situation lässt sich mithilfe des Kulturdimensionenmodells von Geert Hofstede schlüssig erklären. Hofstede führte zwischen 1967 und 1973 Umfragen unter 117.000 IBM-Mitarbeitenden aus mehr als 50 Ländern durch (Hofstede et al., 2010) und unterscheidet insgesamt sechs Kulturdimensionen, darunter Machtdistanz, Individualismus vs. Kollektivismus, Maskulinität vs. Feminität sowie Unsicherheitsvermeidung (Hofstede et al., 2010). Für die Analyse des Workshops sind insbesondere diese vier Dimensionen relevant.
 
 **Machtdistanz** beschreibt, wie ungleiche Machtverhältnisse in einer Gesellschaft akzeptiert werden; in Kulturen mit hoher Machtdistanz werden Entscheidungen zentral gefällt (Hofstede et al., 2010). China weist eine hohe Machtdistanz auf – die fehlende hierarchische Führung im Workshop und das Ausbleiben einer klaren Weisung von oben sind für die chinesischen Teilnehmenden daher schwer einzuordnen. USA, Deutschland und Schweden verfügen dagegen über eine eher geringe Machtdistanz, was partizipativere Arbeitsweisen begünstigt.

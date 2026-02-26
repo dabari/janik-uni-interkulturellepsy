@@ -1,5 +1,9 @@
 # Aufgabe 6
 
+Wende ein theoretisches Konzept an, um die Unternehmenskultur in einem Dir bekannten Unternehmen zu beschreiben und zu erklären. Diskutiere, ob und wie sich eine Unternehmenskultur messen lassen könnte.
+
+---
+
 ## Unternehmenskultur von Apple – Analyse und Messbarkeit
 
 Als Unternehmen wird **Apple Inc.** herangezogen. Zur Analyse der Unternehmenskultur wird das Modell von Fons Trompenaars und Charles Hampden-Turner verwendet, das vier Unternehmenskulturtypen beschreibt: die Familie, den Eiffelturm, die Gelenkte Rakete und den Inkubator (Trompenaars & Hampden-Turner, 2012).

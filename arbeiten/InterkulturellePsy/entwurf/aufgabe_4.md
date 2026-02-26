@@ -1,5 +1,9 @@
 # Aufgabe 4
 
+Mache anhand von drei übergreifenden gesellschaftlichen und/oder wirtschaftlichen Trends, die sich auch auf deutsche Unternehmen auswirken deutlich, wie Diversity Management gezielt unterstützend eingesetzt werden kann, um den mit diesen Trends verbundenen Herausforderungen erfolgreich zu begegnen. Zeige für jeden von Dir dargestellten Trend auch entsprechende praktische Maßnahmen im Rahmen des Diversity Managements zur Umsetzung auf.
+
+---
+
 Diversity Management bietet deutschen Unternehmen die Möglichkeit, auf gesellschaftliche und wirtschaftliche Veränderungen strategisch zu reagieren. Unter Diversity Management versteht man die zielgerichtete Steuerung von Vielfalt im Unternehmen und ihren bewussten Einsatz zur Steigerung des Unternehmenserfolges (Kinne, 2016). Im Folgenden werden drei übergreifende Trends und jeweils konkrete Maßnahmen dargestellt.
 
 ## Trend 1: Demographischer Wandel und Fachkräftemangel

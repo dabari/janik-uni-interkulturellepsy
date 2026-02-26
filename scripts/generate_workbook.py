@@ -4,7 +4,9 @@ generate_workbook.py
 Converts Markdown drafts (entwurf/) into a formatted Word document (ausgabe/).
 
 Usage:
-    python scripts/generate_workbook.py
+    python scripts/generate_workbook.py <Kursname>
+
+    Kursname = Name des Unterordners in arbeiten/, z.B. InterkulturellePsy
 
 Requirements:
     pip install python-docx>=1.1.0
@@ -17,6 +19,7 @@ Template (optional):
 
 import json
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -29,12 +32,9 @@ from docx.oxml import OxmlElement
 
 
 # ---------------------------------------------------------------------------
-# Path setup
+# Path setup (repo-level constants only; course paths are set in main())
 # ---------------------------------------------------------------------------
-BASE_DIR = Path(__file__).resolve().parent.parent
-ENTWURF_DIR = BASE_DIR / "entwurf"
-AUSGABE_DIR = BASE_DIR / "ausgabe"
-CONFIG_FILE = ENTWURF_DIR / "config.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_FILE = Path(__file__).resolve().parent / "template.docx"
 
 
@@ -285,21 +285,21 @@ def add_literaturverzeichnis_entries(doc, md_text):
 # ---------------------------------------------------------------------------
 # Main build function
 # ---------------------------------------------------------------------------
-def build_document(cfg, aufgaben, literaturverzeichnis):
+def build_document(cfg, aufgaben, literaturverzeichnis, template_file):
     # Load template if available, otherwise start blank
-    if TEMPLATE_FILE.exists():
-        doc = Document(str(TEMPLATE_FILE))
+    if template_file.exists():
+        doc = Document(str(template_file))
         # Clear body content while preserving styles and document settings
         body = doc.element.body
         for child in list(body):
             if child.tag != qn("w:sectPr"):
                 body.remove(child)
-        print(f"Template geladen: {TEMPLATE_FILE.name}")
+        print(f"Template geladen: {template_file.name}")
     else:
         doc = Document()
         print(
             "Hinweis: Keine template.docx gefunden – Dokument wird ohne Template erstellt.\n"
-            f"         Lege eine Vorlage ab unter: {TEMPLATE_FILE}"
+            f"         Lege eine Vorlage ab unter: {template_file}"
         )
 
     # Set Normal style base font
@@ -372,14 +372,28 @@ def build_document(cfg, aufgaben, literaturverzeichnis):
 # Entry point
 # ---------------------------------------------------------------------------
 def main():
-    if not CONFIG_FILE.exists():
-        raise FileNotFoundError(f"Config nicht gefunden: {CONFIG_FILE}")
-    with open(CONFIG_FILE, encoding="utf-8") as f:
+    if len(sys.argv) < 2:
+        print("Verwendung: python scripts/generate_workbook.py <Kursname>")
+        print("  Kursname = Ordnername unter arbeiten/, z.B. InterkulturellePsy")
+        sys.exit(1)
+
+    kursname = sys.argv[1]
+    kurs_dir = REPO_ROOT / "arbeiten" / kursname
+    entwurf_dir = kurs_dir / "entwurf"
+    ausgabe_dir = kurs_dir / "ausgabe"
+    config_file = entwurf_dir / "config.json"
+
+    if not kurs_dir.exists():
+        raise FileNotFoundError(f"Kursordner nicht gefunden: {kurs_dir}")
+    if not config_file.exists():
+        raise FileNotFoundError(f"Config nicht gefunden: {config_file}")
+
+    with open(config_file, encoding="utf-8") as f:
         cfg = json.load(f)
 
-    aufgabe_files = sorted(ENTWURF_DIR.glob("aufgabe_*.md"))
+    aufgabe_files = sorted(entwurf_dir.glob("aufgabe_*.md"))
     if not aufgabe_files:
-        raise FileNotFoundError(f"Keine aufgabe_*.md Dateien gefunden in {ENTWURF_DIR}")
+        raise FileNotFoundError(f"Keine aufgabe_*.md Dateien gefunden in {entwurf_dir}")
 
     aufgaben = []
     for fp in aufgabe_files:
@@ -387,23 +401,23 @@ def main():
             aufgaben.append((fp.name, f.read()))
     print(f"Geladene Aufgaben: {[a[0] for a in aufgaben]}")
 
-    lit_file = ENTWURF_DIR / "literaturverzeichnis.md"
+    lit_file = entwurf_dir / "literaturverzeichnis.md"
     if lit_file.exists():
         with open(lit_file, encoding="utf-8") as f:
             literaturverzeichnis = f.read()
     else:
         literaturverzeichnis = "_Noch keine Quellen erfasst._"
 
-    doc = build_document(cfg, aufgaben, literaturverzeichnis)
+    doc = build_document(cfg, aufgaben, literaturverzeichnis, TEMPLATE_FILE)
 
-    AUSGABE_DIR.mkdir(exist_ok=True)
+    ausgabe_dir.mkdir(exist_ok=True)
     date_str = datetime.now().strftime("%Y%m%d")
     nachname = cfg.get("name_nachname", "Nachname")
     vorname = cfg.get("name_vorname", "Vorname")
     matnr = cfg.get("matrikelnummer", "00000000")
     kuerzel = cfg.get("kurskuerzel", "KURS")
     filename = f"{date_str}_{nachname}_{vorname}_{matnr}_{kuerzel}.docx"
-    out_path = AUSGABE_DIR / filename
+    out_path = ausgabe_dir / filename
 
     doc.save(str(out_path))
     print(f"\nDokument gespeichert: {out_path}")

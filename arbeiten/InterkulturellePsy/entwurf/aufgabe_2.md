@@ -1,5 +1,9 @@
 # Aufgabe 2
 
+Im Bereich der Kulturpsychologie und interkulturellen Psychologie gibt es verschiedene Untersuchungsgebiete. Erläutere zwei unterschiedliche Forschungsbereiche und zeige auf, welche Ziele diese jeweils verfolgen? Entwickle für jedes von dir dargestelltes Gebiet jeweils ein Beispiel für eine wissenschaftliche Untersuchung.
+
+---
+
 In der interkulturellen Psychologie und Kulturpsychologie lassen sich verschiedene Forschungsbereiche unterscheiden, die unterschiedliche Perspektiven auf den Zusammenhang zwischen Kultur und menschlichem Erleben einnehmen. Im Folgenden werden zwei zentrale Bereiche vorgestellt: die **kulturvergleichende Psychologie** und die **Kulturpsychologie**.
 
 ## Kulturvergleichende Psychologie

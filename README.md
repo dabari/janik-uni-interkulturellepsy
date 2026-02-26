@@ -7,25 +7,35 @@ Wiederverwendbares 3-Phasen-System zur Erstellung von Advanced Workbooks für di
 ## Ordnerstruktur
 
 ```
-[kurs-ordner]/
-├── eingang/                     # Original-PDFs der Hochschule (nicht ändern)
-├── entwurf/
-│   ├── config.json              # Persönliche Daten + Deckblatt → hier ausfüllen!
-│   ├── aufgabe_1.md             # Inhaltsentwurf Aufgabe 1
-│   ├── aufgabe_N.md             # ... weitere Aufgaben
-│   └── literaturverzeichnis.md  # Alle Quellen in APA 7
-├── ausgabe/                     # Generiertes Word-Dokument landet hier
-└── scripts/
-    ├── generate_workbook.py     # Hauptskript: Markdown → Word
-    ├── template.docx            # Word-Vorlage mit globalen Einstellungen
-    └── requirements.txt         # Python-Abhängigkeiten
+Repo-Root/
+├── CLAUDE.md
+├── README.md
+├── .gitignore
+├── scripts/                          # Gemeinsame Scripts für alle Kurse
+│   ├── generate_workbook.py
+│   ├── extract_aufgaben.py
+│   ├── template.docx
+│   └── requirements.txt
+└── arbeiten/
+    ├── InterkulturellePsy/           # Ein Kurs pro Unterordner
+    │   ├── eingang/                  # Original-PDFs der Hochschule (nicht ändern)
+    │   ├── entwurf/
+    │   │   ├── config.json           # Persönliche Daten + Deckblatt → hier ausfüllen!
+    │   │   ├── aufgabe_1.md          # Inhaltsentwurf Aufgabe 1
+    │   │   ├── aufgabe_N.md          # ... weitere Aufgaben
+    │   │   └── literaturverzeichnis.md
+    │   └── ausgabe/                  # Generiertes Word-Dokument landet hier
+    └── [NeuerKurs]/
+        ├── eingang/
+        ├── entwurf/
+        └── ausgabe/
 ```
 
-> **Beispiel (aktueller Kurs):** `DLBWPIPS01 – Interkulturelle Psychologie` mit 6 Aufgaben (`aufgabe_1.md` bis `aufgabe_6.md`).
+> **Beispiel (aktueller Kurs):** `DLBWPIPS01 – Interkulturelle Psychologie` mit 6 Aufgaben unter `arbeiten/InterkulturellePsy/entwurf/` (`aufgabe_1.md` bis `aufgabe_6.md`).
 
 ---
 
-## Eingangsdokumente (`eingang/`)
+## Eingangsdokumente (`arbeiten/<Kursname>/eingang/`)
 
 Die Hochschule stellt pro Kurs typischerweise diese Dokumente bereit:
 
@@ -44,13 +54,13 @@ Die Hochschule stellt pro Kurs typischerweise diese Dokumente bereit:
 
 ### Phase 1 – Inhaltsentwurf (einmalig, von Claude erledigt)
 
-Claude liest alle Eingangsdokumente und schreibt für jede Aufgabe eine Markdown-Datei in `entwurf/`. Inhalte stammen ausschließlich aus dem Kursskript und der dort gelisteten Literatur.
+Claude liest alle Eingangsdokumente und schreibt für jede Aufgabe eine Markdown-Datei in `arbeiten/<Kursname>/entwurf/`. Inhalte stammen ausschließlich aus dem Kursskript und der dort gelisteten Literatur.
 
 > **Beispiel:** Für DLBWPIPS01 wurden 6 Entwürfe erstellt – u.a. zur Anwendung des Hofstede-Modells (Aufgabe 1) und zum interkulturellen Marketing-Mix (Aufgabe 5).
 
 ### Phase 2 – Review & Anpassung (du + Claude, iterativ)
 
-1. Öffne die Entwürfe in `entwurf/aufgabe_N.md`
+1. Öffne die Entwürfe in `arbeiten/<Kursname>/entwurf/aufgabe_N.md`
 2. Lies jeden Entwurf durch
 3. Gib Claude Feedback im Chat, z.B.:
    - „Aufgabe 3 – der zweite Absatz ist zu kurz, bitte ausführlicher"
@@ -65,16 +75,16 @@ Die `.md`-Dateien können auch direkt bearbeitet werden (z.B. in VS Code oder No
 Wenn alle Entwürfe fertig sind:
 
 ```bash
-python scripts/generate_workbook.py
+python scripts/generate_workbook.py InterkulturellePsy
 ```
 
-Das Script liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeugt:
+Das Script liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` aus `arbeiten/<Kursname>/entwurf/` und erzeugt:
 
 ```
-ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx
+arbeiten/<Kursname>/ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx
 ```
 
-> **Beispiel:** `20260221_Baricevic_Janik_12345678_DLBWPIPS01.docx`
+> **Beispiel:** `arbeiten/InterkulturellePsy/ausgabe/20260221_Baricevic_Janik_12345678_DLBWPIPS01.docx`
 
 Danach: Word öffnen → **Datei → Exportieren → PDF** → bei Turnitin einreichen.
 
@@ -82,7 +92,7 @@ Danach: Word öffnen → **Datei → Exportieren → PDF** → bei Turnitin einr
 
 ## config.json ausfüllen
 
-Öffne `entwurf/config.json` und trage die Kursdaten ein. Die flachen Felder dienen als Platzhalter im `titelblatt`-Array und werden für den Dateinamen verwendet.
+Öffne `arbeiten/<Kursname>/entwurf/config.json` und trage die Kursdaten ein. Die flachen Felder dienen als Platzhalter im `titelblatt`-Array und werden für den Dateinamen verwendet.
 
 ```json
 {
@@ -167,11 +177,11 @@ Das Template ist kursübergreifend wiederverwendbar.
 
 ## Neuen Kurs anlegen
 
-1. Neuen Kursordner anlegen (gleiche Struktur wie dieser)
-2. Eingangsdokumente in `eingang/` ablegen
-3. `entwurf/config.json` mit neuen Kursdaten befüllen
-4. `scripts/generate_workbook.py` und `scripts/template.docx` unverändert übernehmen
-5. Claude Phase 1 starten lassen
+1. Neuen Ordner unter `arbeiten/` anlegen: `arbeiten/NeuerKurs/` mit Unterordnern `eingang/`, `entwurf/`, `ausgabe/`
+2. Eingangsdokumente in `arbeiten/NeuerKurs/eingang/` ablegen
+3. `arbeiten/NeuerKurs/entwurf/config.json` mit neuen Kursdaten befüllen
+4. `scripts/` bleibt unverändert – Scripts und Template sind kursübergreifend wiederverwendbar
+5. Claude Phase 1 starten: `python scripts/extract_aufgaben.py NeuerKurs`
 
 ---
 

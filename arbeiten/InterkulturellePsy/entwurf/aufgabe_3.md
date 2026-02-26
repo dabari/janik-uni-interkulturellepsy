@@ -1,5 +1,11 @@
 # Aufgabe 3
 
+Basti, Hendrik und Larissa haben vor 2 Jahren ein Start-up gegründet, das bereits sehr erfolgreich in der DACH-Region tätig ist. Im letzten Strategie-Meeting haben sie beschlossen ihr Business zu internationalisieren und neue Standorte in Spanien, Frankreich, Polen und der Slowakei zu eröffnen. Da sie wissen, wie wichtig das Team für den Unternehmenserfolg ist, wollen die drei bei der Umsetzung ihrer Pläne großes Augenmerk auf die Unternehmenskultur legen.
+
+Entwickle ein Konzept zum Aufbau und zur Etablierung einer nachhaltigen den Unternehmenserfolg unterstützenden Unternehmenskultur auf der Basis eines Dir bekannten Modells zur Unternehmenskultur. Untermauere dein Konzept jeweils mit dazu passenden Maßnahmen.
+
+---
+
 ## Konzept zur Etablierung einer nachhaltigen Unternehmenskultur auf Basis des Trompenaars-Modells
 
 Für die Internationalisierung des Start-ups von Basti, Hendrik und Larissa in die Länder Spanien, Frankreich, Polen und die Slowakei empfiehlt sich ein Konzept, das auf dem Unternehmenskulturmodell von Fons Trompenaars und Charles Hampden-Turner basiert. Das Modell unterscheidet vier Unternehmenskulturtypen anhand der Dimensionen Personen- vs. Aufgabenorientierung und egalitär vs. hierarchisch: die „Familie", den „Eiffelturm", die „Gelenkte Rakete" und den „Inkubator" (Trompenaars & Hampden-Turner, 2012).

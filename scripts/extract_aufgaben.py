@@ -5,8 +5,10 @@ Extracts individual task descriptions from the Aufgabenstellung PDF
 and creates entwurf/aufgabe_N.md files with the task text.
 
 Usage:
-    python scripts/extract_aufgaben.py              # Interactive mode
-    python scripts/extract_aufgaben.py --yes        # Auto-confirm
+    python scripts/extract_aufgaben.py <Kursname>              # Interactive mode
+    python scripts/extract_aufgaben.py <Kursname> --yes        # Auto-confirm
+
+    Kursname = Name des Unterordners in arbeiten/, z.B. InterkulturellePsy
 
 Requirements:
     pdftotext (poppler-utils) must be installed.
@@ -18,16 +20,14 @@ import subprocess
 import sys
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-EINGANG_DIR = BASE_DIR / "eingang"
-ENTWURF_DIR = BASE_DIR / "entwurf"
+REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
-def find_aufgabenstellung_pdf():
+def find_aufgabenstellung_pdf(eingang_dir):
     """Find the Aufgabenstellung PDF in eingang/."""
-    candidates = list(EINGANG_DIR.glob("*ufgabenstellung*"))
+    candidates = list(eingang_dir.glob("*ufgabenstellung*"))
     if not candidates:
-        print("Fehler: Keine Aufgabenstellungs-PDF in eingang/ gefunden.")
+        print(f"Fehler: Keine Aufgabenstellungs-PDF in {eingang_dir} gefunden.")
         sys.exit(1)
     if len(candidates) > 1:
         print("Mehrere Aufgabenstellungs-PDFs gefunden:")
@@ -98,11 +98,21 @@ def parse_aufgaben(text):
 
 def main():
     parser = argparse.ArgumentParser(description="Aufgabenstellungen aus PDF extrahieren")
+    parser.add_argument("kursname",
+                        help="Ordnername unter arbeiten/, z.B. InterkulturellePsy")
     parser.add_argument("--yes", "-y", action="store_true",
                         help="Ohne Bestätigung direkt schreiben")
     args = parser.parse_args()
 
-    pdf_path = find_aufgabenstellung_pdf()
+    kurs_dir = REPO_ROOT / "arbeiten" / args.kursname
+    eingang_dir = kurs_dir / "eingang"
+    entwurf_dir = kurs_dir / "entwurf"
+
+    if not kurs_dir.exists():
+        print(f"Fehler: Kursordner nicht gefunden: {kurs_dir}")
+        sys.exit(1)
+
+    pdf_path = find_aufgabenstellung_pdf(eingang_dir)
     print(f"PDF: {pdf_path.name}")
 
     text = extract_text(pdf_path)
@@ -114,10 +124,10 @@ def main():
 
     print(f"\n{len(aufgaben)} Aufgabenstellung(en) gefunden:\n")
 
-    ENTWURF_DIR.mkdir(exist_ok=True)
+    entwurf_dir.mkdir(exist_ok=True)
 
     for num, task_text in aufgaben:
-        md_path = ENTWURF_DIR / f"aufgabe_{num}.md"
+        md_path = entwurf_dir / f"aufgabe_{num}.md"
 
         # Check if file already contains a bearbeitung (--- separator)
         if md_path.exists():

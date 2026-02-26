@@ -1,3 +1,4 @@
 /.claude
-/ausgabe
-/eingang
+**/ausgabe/
+**/eingang/
+__pycache__/

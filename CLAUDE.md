@@ -9,18 +9,27 @@ Dieses Repository enthält ein wiederverwendbares 3-Phasen-System zur Erstellung
 ## Ordnerstruktur
 
 ```
-[kurs-ordner]/
-├── eingang/                     # Original-PDFs der Hochschule (niemals ändern)
-├── entwurf/
-│   ├── config.json              # Persönliche Daten + Kursinfos (User füllt aus)
-│   ├── aufgabe_N.md             # Inhaltsentwürfe (eine Datei pro Aufgabe)
-│   └── literaturverzeichnis.md  # Alle Quellen in APA 7
-├── ausgabe/                     # Generiertes Word-Dokument
-└── scripts/
-    ├── extract_aufgaben.py      # Aufgabenstellungen aus PDF → aufgabe_N.md
-    ├── generate_workbook.py     # Markdown → Word
-    ├── template.docx            # Word-Vorlage mit globalen Einstellungen (optional)
-    └── requirements.txt
+Repo-Root/
+├── CLAUDE.md
+├── README.md
+├── .gitignore
+├── scripts/                          # Gemeinsame Scripts für alle Kurse
+│   ├── generate_workbook.py
+│   ├── extract_aufgaben.py
+│   ├── template.docx
+│   └── requirements.txt
+└── arbeiten/
+    ├── InterkulturellePsy/           # Ein Kurs pro Unterordner
+    │   ├── eingang/                  # Original-PDFs der Hochschule (niemals ändern)
+    │   ├── entwurf/
+    │   │   ├── config.json           # Persönliche Daten + Kursinfos (User füllt aus)
+    │   │   ├── aufgabe_N.md          # Inhaltsentwürfe (eine Datei pro Aufgabe)
+    │   │   └── literaturverzeichnis.md
+    │   └── ausgabe/                  # Generiertes Word-Dokument
+    └── [NeuerKurs]/
+        ├── eingang/
+        ├── entwurf/
+        └── ausgabe/
 ```
 
 ---
@@ -90,16 +99,16 @@ Wenn nein → kein Zitat an dieser Stelle setzen.
 
 ### Phase 1 – Inhaltsentwurf (Claude arbeitet autonom)
 
-0. Aufgabenstellungen extrahieren: `python scripts/extract_aufgaben.py` ausführen –
-   erstellt pro Aufgabe eine `entwurf/aufgabe_N.md` mit dem reinen Aufgabentext
-1. Eingangsdokumente aus `eingang/` lesen, WICHTIG ausschließlich nur nach Freigabe die Dateien lesen:
+0. Aufgabenstellungen extrahieren: `python scripts/extract_aufgaben.py <Kursname>` ausführen –
+   erstellt pro Aufgabe eine `arbeiten/<Kursname>/entwurf/aufgabe_N.md` mit dem reinen Aufgabentext
+1. Eingangsdokumente aus `arbeiten/<Kursname>/eingang/` lesen, WICHTIG ausschließlich nur nach Freigabe die Dateien lesen:
    - Aufgabenstellung (enthält alle N Aufgaben)
    - Prüfungsleitfaden (Formalia, Bewertung, Abgabe)
    - Kurs-Skript (Inhaltsquelle)
    - Leitfaden Plagiatsvermeidung (Zitierregeln)
 2. Für jede Aufgabe die relevanten Kapitel im Skript identifizieren
-3. Bearbeitung **unter** die bestehende Aufgabenstellung in jeder `entwurf/aufgabe_N.md` schreiben (ab `# Aufgabe N`)
-4. `entwurf/literaturverzeichnis.md` mit allen verwendeten Quellen anlegen
+3. Bearbeitung **unter** die bestehende Aufgabenstellung in jeder `arbeiten/<Kursname>/entwurf/aufgabe_N.md` schreiben (ab `# Aufgabe N`)
+4. `arbeiten/<Kursname>/entwurf/literaturverzeichnis.md` mit allen verwendeten Quellen anlegen
 5. Sicherstellen, dass jede Aufgabe die Aufgabenstellung vollständig beantwortet
 
 **PDF-Lesen, nur nach Freigabe:** Das Skript mit `pdftotext` (poppler-utils) seitenweise extrahieren. Inhaltsverzeichnis zuerst lesen, dann kapitelweise die relevanten Seiten.
@@ -114,11 +123,11 @@ Wenn nein → kein Zitat an dieser Stelle setzen.
 ### Phase 3 – Word-Generierung (Script)
 
 ```bash
-python scripts/generate_workbook.py
+python scripts/generate_workbook.py <Kursname>
 ```
 
-Liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeugt:
-`ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx`
+Liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` aus `arbeiten/<Kursname>/entwurf/` und erzeugt:
+`arbeiten/<Kursname>/ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx`
 
 ---
 
@@ -174,11 +183,11 @@ Weiterer Fließtext...
 
 ## Wenn ein neuer Kurs beginnt
 
-1. Neuen Kursordner anlegen (gleiche Struktur)
-2. Neue Eingangsdokumente in `eingang/` ablegen
-3. `entwurf/config.json` mit neuen Kursdaten befüllen – insbesondere `titelblatt`-Array anpassen
-4. `scripts/generate_workbook.py` und `scripts/template.docx` sind wiederverwendbar – keine Änderung nötig
-5. Phase 1 starten: Claude liest Skript und schreibt neue Entwürfe
+1. Neuen Ordner unter `arbeiten/` anlegen: `arbeiten/NeuerKurs/` mit Unterordnern `eingang/`, `entwurf/`, `ausgabe/`
+2. Neue Eingangsdokumente in `arbeiten/NeuerKurs/eingang/` ablegen
+3. `arbeiten/NeuerKurs/entwurf/config.json` mit neuen Kursdaten befüllen – insbesondere `titelblatt`-Array anpassen
+4. `scripts/` bleibt unverändert – Scripts und Template sind kursübergreifend wiederverwendbar
+5. Phase 1 starten: `python scripts/extract_aufgaben.py NeuerKurs` → Claude liest Skript und schreibt neue Entwürfe
 
 ---
 
