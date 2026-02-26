@@ -1,12 +1,12 @@
 {
   "name_nachname": "Baricevic",
   "name_vorname": "Janik",
-  "matrikelnummer": "12345678",
+  "matrikelnummer": "10252238",
   "studiengang": "Bachelor Wirtschaftspsychologie",
   "kurs_bezeichnung": "DLBWPIPS01 – Interkulturelle Psychologie",
   "art_der_arbeit": "Advanced Workbook",
-  "tutor": "???",
-  "datum": "2026-02-21",
+  "tutor": "Christina Abdel Shafi",
+  "datum": "2026-02-27",
   "kurskuerzel": "DLBWPIPS01",
   "titelblatt": [
     { "text": "IU Internationale Hochschule", "size": 12, "bold": true, "space_after": 0 },
