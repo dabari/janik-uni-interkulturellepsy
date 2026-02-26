@@ -20,7 +20,6 @@ Template (optional):
 import json
 import re
 import sys
-from datetime import datetime
 from pathlib import Path
 
 from docx import Document
@@ -371,13 +370,8 @@ def build_document(cfg, aufgaben, literaturverzeichnis, template_file):
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
-def main():
-    if len(sys.argv) < 2:
-        print("Verwendung: python scripts/generate_workbook.py <Kursname>")
-        print("  Kursname = Ordnername unter arbeiten/, z.B. InterkulturellePsy")
-        sys.exit(1)
-
-    kursname = sys.argv[1]
+def generate_kurs(kursname):
+    """Generiert das Word-Dokument für einen einzelnen Kurs."""
     kurs_dir = REPO_ROOT / "arbeiten" / kursname
     entwurf_dir = kurs_dir / "entwurf"
     ausgabe_dir = kurs_dir / "ausgabe"
@@ -411,7 +405,10 @@ def main():
     doc = build_document(cfg, aufgaben, literaturverzeichnis, TEMPLATE_FILE)
 
     ausgabe_dir.mkdir(exist_ok=True)
-    date_str = datetime.now().strftime("%Y%m%d")
+    datum_raw = cfg.get("datum")
+    if not datum_raw:
+        raise ValueError("Pflichtfeld 'datum' fehlt in config.json (Format: JJJJ-MM-TT)")
+    date_str = datum_raw.replace("-", "")
     nachname = cfg.get("name_nachname", "Nachname")
     vorname = cfg.get("name_vorname", "Vorname")
     matnr = cfg.get("matrikelnummer", "00000000")
@@ -421,7 +418,29 @@ def main():
 
     doc.save(str(out_path))
     print(f"\nDokument gespeichert: {out_path}")
-    print("\nHinweis: Öffne das Dokument in Word und aktiviere unter")
+
+
+def main():
+    if len(sys.argv) >= 2:
+        kurse = sys.argv[1:]
+    else:
+        # Alle Kurse mit config.json im entwurf-Ordner
+        arbeiten_dir = REPO_ROOT / "arbeiten"
+        kurse = sorted(
+            d.name for d in arbeiten_dir.iterdir()
+            if d.is_dir() and (d / "entwurf" / "config.json").exists()
+        )
+        if not kurse:
+            print("Keine Kurse mit config.json gefunden unter arbeiten/")
+            sys.exit(1)
+        print(f"Keine Kursangabe – generiere alle: {kurse}\n")
+
+    for kursname in kurse:
+        print(f"=== {kursname} ===")
+        generate_kurs(kursname)
+        print()
+
+    print("Hinweis: Öffne die Dokumente in Word und aktiviere unter")
     print("         Layout → Silbentrennung → Automatisch (sofern nicht im Template gesetzt).")
 
 
