@@ -17,6 +17,7 @@ Dieses Repository enthält ein wiederverwendbares 3-Phasen-System zur Erstellung
 │   └── literaturverzeichnis.md  # Alle Quellen in APA 7
 ├── ausgabe/                     # Generiertes Word-Dokument
 └── scripts/
+    ├── extract_aufgaben.py      # Aufgabenstellungen aus PDF → aufgabe_N.md
     ├── generate_workbook.py     # Markdown → Word
     ├── template.docx            # Word-Vorlage mit globalen Einstellungen (optional)
     └── requirements.txt
@@ -89,13 +90,15 @@ Wenn nein → kein Zitat an dieser Stelle setzen.
 
 ### Phase 1 – Inhaltsentwurf (Claude arbeitet autonom)
 
+0. Aufgabenstellungen extrahieren: `python scripts/extract_aufgaben.py` ausführen –
+   erstellt pro Aufgabe eine `entwurf/aufgabe_N.md` mit dem reinen Aufgabentext
 1. Eingangsdokumente aus `eingang/` lesen, WICHTIG ausschließlich nur nach Freigabe die Dateien lesen:
    - Aufgabenstellung (enthält alle N Aufgaben)
    - Prüfungsleitfaden (Formalia, Bewertung, Abgabe)
    - Kurs-Skript (Inhaltsquelle)
    - Leitfaden Plagiatsvermeidung (Zitierregeln)
 2. Für jede Aufgabe die relevanten Kapitel im Skript identifizieren
-3. Je eine Datei `entwurf/aufgabe_N.md` schreiben
+3. Bearbeitung **unter** die bestehende Aufgabenstellung in jeder `entwurf/aufgabe_N.md` schreiben (ab `# Aufgabe N`)
 4. `entwurf/literaturverzeichnis.md` mit allen verwendeten Quellen anlegen
 5. Sicherstellen, dass jede Aufgabe die Aufgabenstellung vollständig beantwortet
 
@@ -124,6 +127,10 @@ Liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` und erzeug
 ```markdown
 # Aufgabe N
 
+Aufgabenstellung als reiner Text (wird kursiv im Word gerendert).
+
+---
+
 Fließtext mit paraphrasierten Inhalten in eigenen Worten.
 Inline-Zitat: (Autor, Jahr)
 
@@ -133,6 +140,8 @@ Weiterer Fließtext...
 ```
 
 - `#` = Aufgabentitel (Arial 12 pt, fett im Word-Output)
+- Text zwischen `# Aufgabe N` und `---` = Aufgabenstellung (Arial 11 pt, kursiv im Word-Output)
+- `---` = Trenner zwischen Aufgabenstellung und Bearbeitung
 - `##` = Zwischenüberschrift (Arial 11 pt, fett)
 - `**fett**` = Hervorhebung innerhalb von Absätzen
 - `*kursiv*` = Kursivschrift (z.B. für Buchtitel im Literaturverzeichnis)

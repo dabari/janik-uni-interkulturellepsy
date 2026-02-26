@@ -161,6 +161,46 @@ def add_title_page(doc, cfg):
 
 
 # ---------------------------------------------------------------------------
+# Helper: split Aufgabenstellung from Bearbeitung
+# ---------------------------------------------------------------------------
+def split_aufgabenstellung(md_content):
+    """
+    Split markdown content at the first '---' separator.
+    Expected format:
+        # Aufgabe N
+        Aufgabenstellung text...
+        ---
+        Bearbeitung text...
+    Returns (heading_and_aufgabenstellung, bearbeitung_text).
+    If no '---' found, everything is treated as heading + Aufgabenstellung.
+    """
+    lines = md_content.split("\n")
+    for i, line in enumerate(lines):
+        if line.strip() == "---":
+            before = "\n".join(lines[:i]).strip()
+            after = "\n".join(lines[i + 1:]).strip()
+            return (before, after)
+    return (md_content.strip(), "")
+
+
+def add_aufgabenstellung(doc, text):
+    """Render Aufgabenstellung text as italic Arial 11pt, justified."""
+    if not text:
+        return
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        p.paragraph_format.space_after = Pt(6)
+        p.paragraph_format.space_before = Pt(0)
+        p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.ONE_POINT_FIVE
+        run = p.add_run(line)
+        set_run_font(run, font_size=11, italic=True)
+
+
+# ---------------------------------------------------------------------------
 # Markdown → Word (main content)
 # ---------------------------------------------------------------------------
 def parse_and_add_markdown(doc, md_text):
@@ -280,7 +320,38 @@ def build_document(cfg, aufgaben, literaturverzeichnis):
     for idx, (filename, md_content) in enumerate(aufgaben):
         if idx > 0:
             doc.add_page_break()
-        parse_and_add_markdown(doc, md_content)
+        header_and_aufgabe, bearbeitung = split_aufgabenstellung(md_content)
+        # Render heading + Aufgabenstellung (# heading normal, rest italic)
+        if header_and_aufgabe:
+            ha_lines = header_and_aufgabe.split("\n")
+            heading_done = False
+            for line in ha_lines:
+                line_s = line.rstrip()
+                if not heading_done and line_s.startswith("# "):
+                    # Render heading as usual (bold, 12pt)
+                    text = line_s[2:].strip()
+                    p = doc.add_paragraph()
+                    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    p.paragraph_format.space_before = Pt(12)
+                    p.paragraph_format.space_after = Pt(6)
+                    p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.ONE_POINT_FIVE
+                    run = p.add_run(text)
+                    set_run_font(run, font_size=12, bold=True)
+                    heading_done = True
+                elif line_s == "":
+                    continue
+                else:
+                    # Aufgabenstellung lines → italic
+                    p = doc.add_paragraph()
+                    p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    p.paragraph_format.space_after = Pt(6)
+                    p.paragraph_format.space_before = Pt(0)
+                    p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.ONE_POINT_FIVE
+                    run = p.add_run(line_s)
+                    set_run_font(run, font_size=11, italic=True)
+        # Render Bearbeitung as normal markdown
+        if bearbeitung:
+            parse_and_add_markdown(doc, bearbeitung)
 
     # --- Literaturverzeichnis ---
     doc.add_page_break()
