@@ -137,11 +137,14 @@ Texte werden durch KI-Detektoren geprüft. Deshalb von Anfang an natürlich schr
 ### Phase 3 – Word-Generierung (Script)
 
 ```bash
-python scripts/generate_workbook.py <Kursname>
+python scripts/generate_workbook.py              # Alle Kurse generieren
+python scripts/generate_workbook.py <Kursname>   # Einzelnen Kurs generieren
 ```
 
 Liest `config.json` + alle `aufgabe_N.md` + `literaturverzeichnis.md` aus `arbeiten/<Kursname>/entwurf/` und erzeugt:
 `arbeiten/<Kursname>/ausgabe/JJJJMMTT_Nachname_Vorname_MatNr_[Kurskürzel].docx`
+
+Das Datum im Dateinamen stammt aus dem Feld `"datum"` in `config.json` (Pflichtfeld, Format: `JJJJ-MM-TT`).
 
 ---
 
