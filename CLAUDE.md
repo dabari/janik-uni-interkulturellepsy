@@ -93,6 +93,20 @@ Wenn nein → kein Zitat an dieser Stelle setzen.
 
 - Deutsch, akademischer Stil, keine umgangssprachlichen Formulierungen
 
+**Schreibstil – KI-Texterkennung vermeiden (KRITISCH):**
+
+Texte werden durch KI-Detektoren geprüft. Deshalb von Anfang an natürlich schreiben:
+
+- **Keine gleichförmigen Absätze** – nicht jeder Absatz darf dem Muster Definition → Funktion → Beispiel → Überleitung folgen
+- **Satzlängen bewusst variieren** – kurze, prägnante Sätze neben längeren, verschachtelten
+- **Rhetorische Fragen und Hinführungen** als Einstieg nutzen, nicht direkt mit Definitionen beginnen
+- **Konkrete Alltagsbeispiele einstreuen** statt nur abstrakt zu formulieren
+- **Übergänge abwechseln** – typische KI-Floskeln wie „Darüber hinaus", „Zusammenfassend zeigt sich", „Des Weiteren", „In diesem Zusammenhang" nicht in jedem Absatz verwenden
+- **Keinen Zusammenfassungssatz am Ende** im Stil „Zusammenfassend lässt sich festhalten, dass..."
+- **Eigene Gedanken** zwischen zitierten Passagen einbauen (Anwendung, Interpretation – ohne Zitat), um den Text lebendiger zu machen
+- **Einen roten Faden** durch durchgängige Beispiele schaffen, die sich durch den Text ziehen
+- Wenn die Aufgabenstellung „Du/Ich"-Perspektive verlangt, auch tatsächlich so schreiben
+
 ---
 
 ## 3-Phasen-Workflow
@@ -198,3 +212,12 @@ Weiterer Fließtext...
 - Änderungswünsche aus dem Feedback direkt in die betreffende `.md`-Datei schreiben,
   nicht nur im Chat antworten
 - Nach jeder inhaltlichen Änderung kurz zusammenfassen, was geändert wurde
+
+---
+
+## Status der Arbeiten
+
+| Kurs | Phase | Anmerkung |
+|------|-------|-----------|
+| InterkulturellePsy | Abgeschlossen | – |
+| Psychologie | Phase 1 fertig, Phase 2 offen | `config.json` braucht noch Tutor/in + Abgabedatum |
